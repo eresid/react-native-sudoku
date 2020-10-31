@@ -1,12 +1,6 @@
 'use strict';
 
-import {
-  Size,
-  CellSize,
-  BoardWidth,
-  BorderWidth,
-  Color,
-} from './GlobalStyle';
+import {Size, CellSize, BoardWidth, BorderWidth, Color} from './GlobalStyle';
 
 import Board from './Board';
 import Timer from './Timer';
@@ -18,7 +12,6 @@ export {
   BoardWidth,
   BorderWidth,
   Color,
-
   Board,
   Timer,
   Touchable,

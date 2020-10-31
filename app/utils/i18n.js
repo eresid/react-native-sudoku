@@ -20,7 +20,8 @@ I18n.translations = {
     nosolve: 'No solve after this move',
     success: 'You solve this game in\n',
     fail: 'You lose this game for more then 3 wrong moves',
-    errormove: 'Wrong move for %{error} times, you will lose for more than 3 times',
+    errormove:
+      'Wrong move for %{error} times, you will lose for more than 3 times',
     newrecord: 'New record! You solve this game in\n',
 
     uploadrecord: 'Send you record to the server?',

@@ -1,29 +1,25 @@
 'use strict';
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 
-import {
-  StyleSheet,
-  View,
-  Text,
-} from 'react-native';
+import {StyleSheet, View, Text} from 'react-native';
 
 function formatTime(elapsed) {
   const hour = Math.floor(elapsed / 60 / 60);
   const minute = Math.floor(elapsed / 60 - hour * 60);
   const second = elapsed % 60;
-  return [hour, minute, second].map(x => x < 10 ? '0' + x : x).join(':');
+  return [hour, minute, second].map((x) => (x < 10 ? '0' + x : x)).join(':');
 }
 
 class Timer extends Component {
-  static formatTime = formatTime
+  static formatTime = formatTime;
   state = {
     paused: false,
     elapsed: this.props.elapsed || 0,
     disabled: this.props.disabled || true,
-  }
-  startTime = null
-  lastElapsed = 0
+  };
+  startTime = null;
+  lastElapsed = 0;
 
   start() {
     this.setState({
@@ -32,17 +28,18 @@ class Timer extends Component {
     this.startTime = new Date();
     this.interval = setInterval(() => {
       if (this.state.paused) return;
-      const elapsed = Math.floor((new Date() - this.startTime) / 1000) + this.lastElapsed;
+      const elapsed =
+        Math.floor((new Date() - this.startTime) / 1000) + this.lastElapsed;
       if (elapsed == this.state.elapsed) return;
       this.setState({
         elapsed,
       });
-    }, 100)
+    }, 100);
   }
 
   pause() {
     this.setState({
-      paused: true
+      paused: true,
     });
     this.lastElapsed = this.state.elapsed;
     return this.state.elapsed;
@@ -50,7 +47,7 @@ class Timer extends Component {
 
   resume() {
     this.setState({
-      paused: false
+      paused: false,
     });
     this.startTime = new Date();
   }
@@ -60,8 +57,8 @@ class Timer extends Component {
     if (this.state.paused) {
       this.setState({
         paused: false,
-      })
-    };
+      });
+    }
     return this.state.elapsed;
   }
 
@@ -96,10 +93,12 @@ class Timer extends Component {
   }
 
   render() {
-    const { elapsed, disabled } = this.state;
-    const { style, disabledStyle } = this.props;
+    const {elapsed, disabled} = this.state;
+    const {style, disabledStyle} = this.props;
     return (
-      <Text style={[styles.text, style, disabled && disabledStyle]}>{formatTime(elapsed)}</Text>
+      <Text style={[styles.text, style, disabled && disabledStyle]}>
+        {formatTime(elapsed)}
+      </Text>
     );
   }
 }
@@ -112,6 +111,5 @@ const styles = StyleSheet.create({
     fontFamily: 'Menlo',
   },
 });
-
 
 export default Timer;

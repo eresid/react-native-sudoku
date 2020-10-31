@@ -1,6 +1,6 @@
 'use strict';
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 
 import {
   InteractionManager,
@@ -10,46 +10,39 @@ import {
   View,
 } from 'react-native';
 
-import {
-  CellSize,
-  BoardWidth,
-  BorderWidth,
-} from './GlobalStyle';
+import {CellSize, BoardWidth, BorderWidth} from './GlobalStyle';
 
 import Grid from './Grid';
 import Stack from './Stack';
-import {
-  sudoku,
-  isNumber,
-} from '../utils';
+import {sudoku, isNumber} from '../utils';
 
 const stack = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 
 function toXY(index) {
   const x = index % 9;
   const y = (index - x) / 9;
-  return { x, y };
+  return {x, y};
 }
 
 function toZ(index) {
-  const { x, y } = toXY(index);
-  return (x - x % 3) / 3 + (y - y % 3);
+  const {x, y} = toXY(index);
+  return (x - (x % 3)) / 3 + (y - (y % 3));
 }
 
 class Board extends Component {
   state = {
     index: -1,
-  }
-  puzzle = this.props.solve || this.props.puzzle
-  original = this.props.puzzle
-  cells = []
-  stacks = stack.map(x => new Array(9))
-  movedStacks = [0, 0, 0, 0, 0, 0, 0, 0, 0]
-  hightlightNumber = null
-  hightlightIndex = null
-  editing = this.props.editing
-  inited = false
-  solved = false
+  };
+  puzzle = this.props.solve || this.props.puzzle;
+  original = this.props.puzzle;
+  cells = [];
+  stacks = stack.map((x) => new Array(9));
+  movedStacks = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+  hightlightNumber = null;
+  hightlightIndex = null;
+  editing = this.props.editing;
+  inited = false;
+  solved = false;
 
   onCellPress = (index, number, fixed) => {
     if (!this.inited || this.solved) return;
@@ -67,7 +60,7 @@ class Board extends Component {
     }
     if (index != this.state.index) {
       LayoutAnimation.easeInEaseOut();
-      this.setState({ index });
+      this.setState({index});
     }
 
     if (isNumber(this.hightlightIndex))
@@ -79,11 +72,11 @@ class Board extends Component {
       this.setHighlight(this.hightlightNumber, false);
       this.hightlightNumber = null;
     }
-  }
+  };
 
   onStackPress = (number) => {
     if (!this.inited) return;
-    const { index } = this.state;
+    const {index} = this.state;
     if (index == -1) {
       if (isNumber(this.hightlightNumber)) {
         this.setHighlight(this.hightlightNumber, false);
@@ -102,19 +95,18 @@ class Board extends Component {
     }
     const stack = this.stacks[number][8 - this.movedStacks[number]];
     stack.moveTo(index, () => {
-      const { x, y } = toXY(index);
+      const {x, y} = toXY(index);
       const z = toZ(index);
       let collision = [];
       this.puzzle.forEach((item, idx) => {
         if (item != number) return;
         const pos = toXY(idx);
-        if (pos.x == x || pos.y == y || toZ(idx) == z)
-          collision.push(idx);
+        if (pos.x == x || pos.y == y || toZ(idx) == z) collision.push(idx);
       });
       if (collision.length) {
-        collision.forEach(i => this.cells[i].setHighlight(true));
+        collision.forEach((i) => this.cells[i].setHighlight(true));
         stack.moveBack(() => {
-          collision.forEach(i => this.cells[i].setHighlight(false));
+          collision.forEach((i) => this.cells[i].setHighlight(false));
         });
         return;
       }
@@ -131,19 +123,28 @@ class Board extends Component {
       this.props.onMove && this.props.onMove();
       stack.setHide(true);
       this.puzzle[index] = number;
-      if (this.puzzle.filter((item, idx) => item != null && toZ(idx) == z).length == 9) {
+      if (
+        this.puzzle.filter((item, idx) => item != null && toZ(idx) == z)
+          .length == 9
+      ) {
         this.animateGrid(z);
       }
-      if (this.puzzle.filter((item, idx) => item != null && toXY(idx).y == y).length == 9) {
+      if (
+        this.puzzle.filter((item, idx) => item != null && toXY(idx).y == y)
+          .length == 9
+      ) {
         this.animateRow(y);
       }
-      if (this.puzzle.filter((item, idx) => item != null && toXY(idx).x == x).length == 9) {
+      if (
+        this.puzzle.filter((item, idx) => item != null && toXY(idx).x == x)
+          .length == 9
+      ) {
         this.animateColumn(x);
       }
-      if (this.puzzle.filter(x => x == number).length == 9) {
+      if (this.puzzle.filter((x) => x == number).length == 9) {
         this.animateNumber(number);
       }
-      if (this.puzzle.filter(x => x != null).length == 81) {
+      if (this.puzzle.filter((x) => x != null).length == 81) {
         this.solved = true;
         this.cells[index].setHighlight(false);
         this.setState({
@@ -165,7 +166,7 @@ class Board extends Component {
         index: -1,
       });
     });
-  }
+  };
 
   initBoard() {
     this.inited = false;
@@ -175,38 +176,45 @@ class Board extends Component {
     this.hightlightIndex = null;
     let count = 0;
     let fixedStack = [];
-    const numberCount = this.puzzle.filter(x => x != null).length;
+    const numberCount = this.puzzle.filter((x) => x != null).length;
     const gap = 150;
     for (let i = 0; i < 81; i++) {
       const number = this.puzzle[i];
       if (isNumber(number)) {
         count++;
-        setTimeout((count) => {
-          const stack = this.stacks[number][8 - this.movedStacks[number]];
-          fixedStack.push(stack);
-          this.movedStacks[number]++;
-          stack.moveTo(i, () => {
-            this.cells[i].setNumber(number, this.original[i] == this.puzzle[i]);
-            if (count == numberCount) {
-              requestAnimationFrame(() => {
-                fixedStack.map((item, idx) => item.setHide(true));
-              });
-              setTimeout(() => {
-                this.inited = true;
-                this.props.onInit && this.props.onInit();
-              }, gap);
-            }
-          });
-        }, gap * count, count);
+        setTimeout(
+          (count) => {
+            const stack = this.stacks[number][8 - this.movedStacks[number]];
+            fixedStack.push(stack);
+            this.movedStacks[number]++;
+            stack.moveTo(i, () => {
+              this.cells[i].setNumber(
+                number,
+                this.original[i] == this.puzzle[i],
+              );
+              if (count == numberCount) {
+                requestAnimationFrame(() => {
+                  fixedStack.map((item, idx) => item.setHide(true));
+                });
+                setTimeout(() => {
+                  this.inited = true;
+                  this.props.onInit && this.props.onInit();
+                }, gap);
+              }
+            });
+          },
+          gap * count,
+          count,
+        );
       }
     }
   }
 
   componentWillReceiveProps(nextProps) {
     this.editing = nextProps.editing;
-    if (!nextProps.puzzle | this.original == nextProps.puzzle) return;
-    this.setState({ index: -1 });
-    this.cells.forEach(x => x.reset());
+    if (!nextProps.puzzle | (this.original == nextProps.puzzle)) return;
+    this.setState({index: -1});
+    this.cells.forEach((x) => x.reset());
     this.movedStacks.forEach((x, number) => {
       for (let i = 0; i < x; i++) this.stacks[number][8 - i].reset();
     });
@@ -223,40 +231,50 @@ class Board extends Component {
   }
 
   render() {
-    const { index } = this.state;
-    const { x, y } = toXY(this.state.index);
+    const {index} = this.state;
+    const {x, y} = toXY(this.state.index);
     const top = y * CellSize + Math.floor(y / 3) * BorderWidth * 2;
     const left = x * CellSize + Math.floor(x / 3) * BorderWidth * 2;
     return (
-      <View style={styles.container} >
-        <View style={styles.boardContainer} >
-          <View style={styles.board} >
-            <Grid ref={ref => ref && (this.cells = ref.cells)} onPress={this.onCellPress} />
-            {index!=-1&&<View pointerEvents='none' style={[styles.row, {top}]} />}
-            {index!=-1&&<View pointerEvents='none' style={[styles.column, {left}]} />}
+      <View style={styles.container}>
+        <View style={styles.boardContainer}>
+          <View style={styles.board}>
+            <Grid
+              ref={(ref) => ref && (this.cells = ref.cells)}
+              onPress={this.onCellPress}
+            />
+            {index != -1 && (
+              <View pointerEvents="none" style={[styles.row, {top}]} />
+            )}
+            {index != -1 && (
+              <View pointerEvents="none" style={[styles.column, {left}]} />
+            )}
           </View>
         </View>
-        <Stack ref={ref => ref && (this.stacks = ref.stacks)} onPress={this.onStackPress} />
+        <Stack
+          ref={(ref) => ref && (this.stacks = ref.stacks)}
+          onPress={this.onStackPress}
+        />
       </View>
     );
   }
 
   animateRow(x) {
-    stack.forEach(i => this.cells[i + x * 9].animate());
+    stack.forEach((i) => this.cells[i + x * 9].animate());
   }
 
   animateColumn(y) {
-    stack.forEach(i => this.cells[i * 9 + y].animate());
+    stack.forEach((i) => this.cells[i * 9 + y].animate());
   }
 
   animateGrid(z) {
     const x = z % 3;
     const y = (z - x) / 3;
-    stack.forEach(i => {
+    stack.forEach((i) => {
       const xx = i % 3;
       const yy = (i - xx) / 3;
       const index = xx + yy * 3 * 3 + y * 27 + x * 3;
-      this.cells[index].animate()
+      this.cells[index].animate();
     });
   }
 
@@ -275,7 +293,7 @@ class Board extends Component {
   setHighlight(number, highlight) {
     this.puzzle.forEach((item, i) => {
       if (item == number) this.cells[i].setHighlight(highlight);
-    })
+    });
   }
 }
 
@@ -316,6 +334,5 @@ const styles = StyleSheet.create({
     borderRadius: BorderWidth,
   },
 });
-
 
 export default Board;

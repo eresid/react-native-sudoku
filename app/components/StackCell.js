@@ -1,20 +1,10 @@
 'use strict';
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 
-import {
-  LayoutAnimation,
-  StyleSheet,
-  View,
-  Text,
-} from 'react-native';
+import {LayoutAnimation, StyleSheet, View, Text} from 'react-native';
 
-import {
-  Size,
-  CellSize,
-  BoardWidth,
-  BorderWidth,
-} from './GlobalStyle';
+import {Size, CellSize, BoardWidth, BorderWidth} from './GlobalStyle';
 import Touchable from './Touchable';
 
 const spring = {
@@ -32,13 +22,13 @@ const spring = {
 const Offset = (BoardWidth - CellSize * 9 - BorderWidth * 8) / 2;
 
 class StackCell extends Component {
-  left = BoardWidth / 9 * this.props.number + (BoardWidth / 9 - CellSize) / 2;
-  top = this.props.index
+  left = (BoardWidth / 9) * this.props.number + (BoardWidth / 9 - CellSize) / 2;
+  top = this.props.index;
   state = {
     hide: false,
     left: this.left,
     top: this.top,
-  }
+  };
 
   moveTo(index, onMoveFinish) {
     const x = index % 9;
@@ -47,14 +37,14 @@ class StackCell extends Component {
     const left = CellSize * x + gap * (Math.floor(x / 3) + 1) + Offset;
     const top = -20 - CellSize * (9 - y) - gap * (Math.floor((8 - y) / 3) + 1);
     LayoutAnimation.configureNext(spring);
-    this.setState({ left, top });
+    this.setState({left, top});
     setTimeout(() => {
       onMoveFinish && onMoveFinish();
     }, 300);
   }
 
   setHide(hide, onFinish) {
-    this.setState({ hide }, onFinish);
+    this.setState({hide}, onFinish);
   }
 
   moveBack(onMoveFinish) {
@@ -78,15 +68,15 @@ class StackCell extends Component {
 
   onPress = (e) => {
     this.props.onPress && this.props.onPress(this.props.number);
-  }
+  };
 
   render() {
     if (this.state.hide) return null;
-    const { number } = this.props;
-    const { left, top } = this.state;
+    const {number} = this.props;
+    const {left, top} = this.state;
     return (
-      <Touchable onPress={this.onPress} style={[styles.container, {top, left}]} >
-        <View style={styles.cell} >
+      <Touchable onPress={this.onPress} style={[styles.container, {top, left}]}>
+        <View style={styles.cell}>
           <Text style={styles.text}>{number + 1}</Text>
         </View>
       </Touchable>
@@ -112,10 +102,9 @@ const styles = StyleSheet.create({
   },
   text: {
     color: '#666',
-    fontSize: CellSize * 2 / 3,
+    fontSize: (CellSize * 2) / 3,
     fontFamily: 'HelveticaNeue',
-  }
+  },
 });
-
 
 export default StackCell;

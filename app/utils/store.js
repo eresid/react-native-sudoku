@@ -1,13 +1,13 @@
 'use strict';
 
-import { AsyncStorage } from 'react-native';
+import {AsyncStorage} from 'react-native';
 
 function clear() {
   return AsyncStorage.clear();
 }
 
 function get(key) {
-  return AsyncStorage.getItem(key).then(value => JSON.parse(value));
+  return AsyncStorage.getItem(key).then((value) => JSON.parse(value));
 }
 
 function set(key, value) {
