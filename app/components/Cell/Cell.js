@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {number, func} from 'prop-types';
 
 import {LayoutAnimation, Animated, Text, TouchableOpacity} from 'react-native';
 
@@ -99,6 +100,12 @@ const Cell = (index, initNumber, onPress) => {
       />
     </Animated.View>
   );
+};
+
+Cell.propTypes = {
+  index: number.isRequired,
+  initNumber: number,
+  onPress: func.isRequired,
 };
 
 export default Cell;

@@ -72,7 +72,7 @@ const StackCell = (key, index, number, onPress) => {
     <TouchableOpacity
       onPress={() => onPress(number)}
       activeOpacity={0.8}
-      style={[styles.container, {top, left}]}>
+      style={[styles.container, {top: 0, left: left ? parseInt(left) : 0}]}>
       <View style={styles.cell}>
         <Text style={styles.text}>{number + 1}</Text>
       </View>

@@ -16,6 +16,7 @@ import {Store, sudoku} from '../utils';
 import I18n from '../utils/i18n';
 import formatTime from '../utils/formatTime';
 import {onShare, onRate} from '../utils/sharerate';
+import Board from '../components/Board/Board';
 
 const Main = () => {
   const [puzzle, setPuzzle] = useState(null);
@@ -243,14 +244,14 @@ const Main = () => {
           />
         </TouchableOpacity>
       </View>
-      {/* <Board
+      <Board
         puzzle={puzzle}
         solve={solve}
         editing={editing}
         onInit={onInit}
         onErrorMove={onErrorMove}
         onFinish={onFinish}
-      /> */}
+      />
       <Modal
         animationType="slide"
         visible={showModal}

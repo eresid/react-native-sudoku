@@ -1,5 +1,6 @@
 import React from 'react';
 import {View} from 'react-native';
+import {func} from 'prop-types';
 
 import styles from './GridStyles';
 import Cell from '../Cell/Cell';
@@ -23,7 +24,7 @@ const Grid = (onPress) => {
                   ref={(ref) => (cells[index] = ref)}
                   key={'cell' + index}
                   index={index}
-                  number={null}
+                  initNumber={null}
                   onPress={onPress}
                 />
               );
@@ -33,6 +34,10 @@ const Grid = (onPress) => {
       })}
     </View>
   );
+};
+
+Grid.propTypes = {
+  onPress: func.isRequired,
 };
 
 export default Grid;
