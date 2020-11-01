@@ -7,23 +7,30 @@ import {
   View,
 } from 'react-native';
 
-import Main from './app/containers/Main';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+
+import Main from './app/screens/Main';
 
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
 
+const Stack = createStackNavigator();
+
 const App = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.container}>
-        <StatusBar
-          backgroundColor="transparent"
-          animated={true}
-          translucent={true}
-          barStyle="light-content"
-        />
-        <Main />
-      </View>
+      <NavigationContainer>
+        <View style={styles.container}>
+          <StatusBar
+            backgroundColor="transparent"
+            animated={true}
+            translucent={true}
+            barStyle="light-content"
+          />
+          <Main />
+        </View>
+      </NavigationContainer>
     </SafeAreaView>
   );
 };

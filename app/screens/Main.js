@@ -134,7 +134,6 @@ const Main = () => {
   };
 
   const onToggleEditing = () => {
-    alert('Edit');
     setEditing(!editing);
   };
 
@@ -195,8 +194,6 @@ const Main = () => {
   };
 
   const onShowModal = () => {
-    alert('Show Modal');
-
     if (!initing) {
       if (solve) Store.set('solve', solve);
       if (error) Store.set('error', error);
