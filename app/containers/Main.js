@@ -260,7 +260,6 @@ const Main = () => {
         <View style={styles.modal}>
           <View style={[styles.modalContainer]}>
             <Text style={styles.title}>{I18n.t('name')}</Text>
-            <Text style={styles.about}>by Neo(nihgwu@live.com)</Text>
             <TouchableOpacity
               activeOpacity={0.8}
               disabled={disabled}

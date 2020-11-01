@@ -55,13 +55,6 @@ const styles = StyleSheet.create({
     fontSize: CellSize,
     color: '#fff',
   },
-  about: {
-    marginBottom: 20,
-    textAlign: 'center',
-    fontSize: CellSize / 2,
-    color: '#fff',
-    opacity: 0.5,
-  },
   footer: {
     flexDirection: 'row',
     alignItems: 'center',

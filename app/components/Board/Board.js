@@ -22,7 +22,7 @@ function toZ(index) {
   return (x - (x % 3)) / 3 + (y - (y % 3));
 }
 
-const Board = (
+const Board = ({
   onInit,
   solve,
   initPuzzle,
@@ -30,7 +30,7 @@ const Board = (
   onMove,
   onErrorMove,
   onFinish,
-) => {
+}) => {
   const [index, setIndex] = useState(-1);
 
   const cellsRef = useRef();

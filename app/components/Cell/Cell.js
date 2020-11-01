@@ -5,7 +5,7 @@ import {LayoutAnimation, Animated, Text, TouchableOpacity} from 'react-native';
 
 import styles from './CellStyles';
 
-const Cell = (index, initNumber, onPress) => {
+const Cell = ({index, initNumber, onPress}) => {
   const [number, setNumber] = useState(initNumber);
   const [hints, setHints] = useState([]);
   const [editing, setEditing] = useState(false);

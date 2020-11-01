@@ -4,6 +4,7 @@ import {LayoutAnimation, View, Text, TouchableOpacity} from 'react-native';
 
 import styles from './StackCellStyles';
 import {CellSize, BoardWidth, BorderWidth} from '../GlobalStyle';
+import {number, func} from 'prop-types';
 
 const spring = {
   duration: 300,
@@ -19,7 +20,7 @@ const spring = {
 
 const Offset = (BoardWidth - CellSize * 9 - BorderWidth * 8) / 2;
 
-const StackCell = (key, index, number, onPress) => {
+const StackCell = ({index, number, onPress}) => {
   const initLeft = (BoardWidth / 9) * number + (BoardWidth / 9 - CellSize) / 2;
   const initTop = index;
 
@@ -70,7 +71,9 @@ const StackCell = (key, index, number, onPress) => {
 
   return (
     <TouchableOpacity
-      onPress={() => onPress(number)}
+      onPress={() => {
+        onPress(number);
+      }}
       activeOpacity={0.8}
       style={[styles.container, {top: 0, left: left ? parseInt(left) : 0}]}>
       <View style={styles.cell}>
@@ -78,6 +81,12 @@ const StackCell = (key, index, number, onPress) => {
       </View>
     </TouchableOpacity>
   );
+};
+
+StackCell.propTypes = {
+  index: number.isRequired,
+  number: number.isRequired,
+  onPress: func.isRequired,
 };
 
 export default StackCell;

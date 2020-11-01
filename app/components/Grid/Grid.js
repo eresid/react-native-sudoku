@@ -7,7 +7,7 @@ import Cell from '../Cell/Cell';
 
 const stack = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-const Grid = (onPress) => {
+const Grid = ({onPress}) => {
   const cells = [];
 
   return (
