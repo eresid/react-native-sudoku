@@ -1,5 +1,3 @@
-'use strict';
-
 import Store from './store';
 import sudoku from './sudoku';
 import I18n from './i18n';

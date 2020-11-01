@@ -5,12 +5,15 @@
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
+    "pod": "cd ios && pod install && cd ..",
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint ."
   },
   "dependencies": {
+    "@react-native-community/async-storage": "^1.12.1",
     "lodash": "^4.17.20",
+    "prop-types": "^15.7.2",
     "react": "16.13.1",
     "react-native": "0.63.3",
     "react-native-i18n": "2.0.15"

@@ -1,25 +1,20 @@
-'use strict';
+import React from 'react';
+import {
+  SafeAreaView,
+  StyleSheet,
+  StatusBar,
+  UIManager,
+  View,
+} from 'react-native';
 
-import React, {Component} from 'react';
-
-import {StyleSheet, StatusBar, UIManager, View} from 'react-native';
-
-import AV from 'leancloud-storage';
-import RNLeanCloud from 'react-native-leancloud';
-
-import Main from './containers/Main';
+import Main from './app/containers/Main';
 
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
 
-AV.init({
-  appId: RNLeanCloud.appId,
-  appKey: RNLeanCloud.appKey,
-});
-
-class App extends Component {
-  render() {
-    return (
+const App = () => {
+  return (
+    <SafeAreaView style={styles.container}>
       <View style={styles.container}>
         <StatusBar
           backgroundColor="transparent"
@@ -29,9 +24,9 @@ class App extends Component {
         />
         <Main />
       </View>
-    );
-  }
-}
+    </SafeAreaView>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
