@@ -27,6 +27,12 @@ const styles = StyleSheet.create({
     color: '#fff',
     opacity: 1,
   },
+  timerText: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: '100',
+    fontFamily: 'Menlo',
+  },
   modal: {
     flex: 1,
     backgroundColor: 'teal',

@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import {
   AppState,
@@ -11,10 +11,10 @@ import {
 } from 'react-native';
 
 import styles from './MainStyles';
-import {Timer} from '../components';
+import TimerHelper from '../utils/TimerHelper';
 import {Store, sudoku} from '../utils';
 import I18n from '../utils/i18n';
-import {formatTime} from '../utils/formatTime';
+import formatTime from '../utils/formatTime';
 import {onShare, onRate} from '../utils/sharerate';
 
 const Main = () => {
@@ -23,8 +23,9 @@ const Main = () => {
   const [initing, setIniting] = useState(false);
   const [editing, setEditing] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [gameTime, setGameTime] = useState(0);
 
-  const timer = useRef(null);
+  const timer = new TimerHelper();
 
   let initPuzzle = null;
   let solve = null;
@@ -32,7 +33,6 @@ const Main = () => {
   let elapsed = null;
   let fromStore = false;
   let records = [];
-  let granted = false;
   let nextPuzzle = null;
 
   const handeleAppStateChange = (currentAppState) => {
@@ -56,10 +56,8 @@ const Main = () => {
         error = (await Store.get('error')) || 0;
         elapsed = await Store.get('elapsed');
       }
-
-      granted = await Store.get('granted');
     } catch (e) {
-      alert(JSON.stringify(e));
+      alert(e.message);
     }
 
     setShowModal(true);
@@ -83,7 +81,9 @@ const Main = () => {
     setPlaying(true);
     setShowModal(false);
 
-    timer.start();
+    timer.start((elapsed) => {
+      console.log(setGameTime(elapsed));
+    });
   };
 
   const onErrorMove = () => {
@@ -226,11 +226,9 @@ const Main = () => {
             source={require('../images/menu.png')}
           />
         </TouchableOpacity>
-        <Timer
-          ref={timer}
-          style={styles.timer}
-          disabledStyle={styles.disabled}
-        />
+        <Text style={[styles.timerText, styles.timer]}>
+          {formatTime(gameTime)}
+        </Text>
         <TouchableOpacity
           activeOpacity={0.8}
           disabled={!playing}
