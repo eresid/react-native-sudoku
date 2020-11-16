@@ -1,11 +1,17 @@
-import React, {useState} from 'react';
-import {number, func} from 'prop-types';
+/* eslint-disable no-unused-vars */
+import React, { useState } from 'react';
+import { number, func } from 'prop-types';
 
-import {LayoutAnimation, Animated, Text, TouchableOpacity} from 'react-native';
+import {
+  LayoutAnimation,
+  Animated,
+  Text,
+  TouchableOpacity,
+} from 'react-native';
 
 import styles from './CellStyles';
 
-const Cell = ({index, initNumber, onPress}) => {
+const Cell = ({ index, initNumber, onPress }) => {
   const [number, setNumber] = useState(initNumber);
   const [hints, setHints] = useState([]);
   const [editing, setEditing] = useState(false);
@@ -66,7 +72,7 @@ const Cell = ({index, initNumber, onPress}) => {
     inputRange: [0, 0.1, 0.9, 1],
     outputRange: [1, 1.1, 1.1, 1],
   });
-  const transform = [{rotate}, {scale}];
+  const transform = [{ rotate }, { scale }];
   const zIndex = toggle ? 100 : 0;
   const filled = typeof number == 'number';
   const text = filled ? number + 1 : '';
@@ -79,8 +85,9 @@ const Cell = ({index, initNumber, onPress}) => {
         filled && styles.filledCell,
         fixed && styles.fixedCell,
         highlight && styles.highlightCell,
-        {transform, zIndex},
-      ]}>
+        { transform, zIndex },
+      ]}
+    >
       {editing ? (
         <Text style={[styles.text, styles.editingText]}>{hint}</Text>
       ) : (
@@ -89,7 +96,8 @@ const Cell = ({index, initNumber, onPress}) => {
             styles.text,
             fixed && styles.fixedText,
             highlight && styles.highlightText,
-          ]}>
+          ]}
+        >
           {text}
         </Text>
       )}

@@ -1,15 +1,15 @@
 import React from 'react';
-import {View} from 'react-native';
+import { View } from 'react-native';
 
-import {func} from 'prop-types';
+import { func } from 'prop-types';
 
 import styles from './StackStyles';
 import StackCell from '../StackCell/StackCell';
 
 const stack = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 
-const Stack = ({onPress}) => {
-  const stacks = stack.map((x) => new Array(9));
+const Stack = ({ onPress }) => {
+  const stacks = stack.map(() => new Array(9));
 
   return (
     <View style={styles.container}>

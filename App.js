@@ -7,15 +7,15 @@ import {
   View,
 } from 'react-native';
 
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
+//import { createStackNavigator } from '@react-navigation/stack';
 
 import Main from './src/screens/Main';
 
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
 
-const Stack = createStackNavigator();
+//const Stack = createStackNavigator();
 
 const App = () => {
   return (

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
   AppState,
@@ -12,11 +12,19 @@ import {
 
 import styles from './MainStyles';
 import TimerHelper from '../utils/TimerHelper';
-import {Store, sudoku} from '../utils';
+import { Store, sudoku } from '../utils';
 import I18n from '../utils/i18n';
 import formatTime from '../utils/formatTime';
-import {onShare, onRate} from '../utils/sharerate';
+import { onShare, onRate } from '../utils/sharerate';
 import Board from '../components/Board/Board';
+import menuUrl from '../images/menu.png';
+import editUrl from '../images/edit.png';
+import playUrl from '../images/play.png';
+import reloadUrl from '../images/reload.png';
+import shuffleUrl from '../images/shuffle.png';
+import shareUrl from '../images/share.png';
+import closeUrl from '../images/close.png';
+import rateUrl from '../images/rate.png';
 
 const Main = () => {
   const [puzzle, setPuzzle] = useState(null);
@@ -90,10 +98,10 @@ const Main = () => {
   const onErrorMove = () => {
     error++;
     const message =
-      error > 3 ? I18n.t('fail') : I18n.t('errormove', {error: error});
+      error > 3 ? I18n.t('fail') : I18n.t('errormove', { error: error });
     Alert.alert(I18n.t('nosolve'), message, [
-      {text: I18n.t('ok')},
-      {text: I18n.t('newgame'), onPress: onCreate},
+      { text: I18n.t('ok') },
+      { text: I18n.t('newgame'), onPress: onCreate },
     ]);
   };
 
@@ -101,16 +109,19 @@ const Main = () => {
     setPlaying(false);
 
     Store.multiRemove('puzzle', 'solve', 'error', 'elapsed');
-    elapsed = null;
+    let elapsed = null;
     solve = null;
     fromStore = false;
-    const elapsed = timer.stop();
+    elapsed = timer.stop();
     if (error > 3) {
       setTimeout(() => {
         Alert.alert(
           I18n.t('congrats'),
           I18n.t('success') + formatTime(elapsed) + '\n' + I18n.t('fail'),
-          [{text: I18n.t('ok')}, {text: I18n.t('newgame'), onPress: onCreate}],
+          [
+            { text: I18n.t('ok') },
+            { text: I18n.t('newgame'), onPress: onCreate },
+          ]
         );
       }, 2000);
       return;
@@ -122,13 +133,13 @@ const Main = () => {
       Store.set('records', records);
     }
     const length = records.length;
-    const newRecord = elapsed == records[0] && records.length > 1;
+    const newRecord = elapsed == records[0] && length > 1;
     setTimeout(() => {
       Alert.alert(
         I18n.t('congrats'),
         (newRecord ? I18n.t('newrecord') : I18n.t('success')) +
           formatTime(elapsed),
-        [{text: I18n.t('ok')}, {text: I18n.t('newgame'), onPress: onCreate}],
+        [{ text: I18n.t('ok') }, { text: I18n.t('newgame'), onPress: onCreate }]
       );
     }, 2000);
   };
@@ -218,10 +229,11 @@ const Main = () => {
         <TouchableOpacity
           activeOpacity={0.8}
           disabled={initing}
-          onPress={() => onShowModal()}>
+          onPress={() => onShowModal()}
+        >
           <Image
             style={[styles.icon, initing && styles.disabled]}
-            source={require('../images/menu.png')}
+            source={menuUrl}
           />
         </TouchableOpacity>
         <Text style={[styles.timerText, styles.timer]}>
@@ -230,14 +242,15 @@ const Main = () => {
         <TouchableOpacity
           activeOpacity={0.8}
           disabled={!playing}
-          onPress={() => onToggleEditing()}>
+          onPress={() => onToggleEditing()}
+        >
           <Image
             style={[
               styles.icon,
-              editing && {tintColor: 'khaki'},
+              editing && { tintColor: 'khaki' },
               !playing && styles.disabled,
             ]}
-            source={require('../images/edit.png')}
+            source={editUrl}
           />
         </TouchableOpacity>
       </View>
@@ -253,7 +266,8 @@ const Main = () => {
         animationType="slide"
         visible={showModal}
         transparent={true}
-        onRequestClose={onCloseModal}>
+        onRequestClose={onCloseModal}
+      >
         <View style={styles.modal}>
           <View style={[styles.modalContainer]}>
             <Text style={styles.title}>{I18n.t('name')}</Text>
@@ -261,10 +275,11 @@ const Main = () => {
               activeOpacity={0.8}
               disabled={disabled}
               style={styles.button}
-              onPress={onResume}>
+              onPress={onResume}
+            >
               <Image
                 style={[styles.buttonIcon, disabled && styles.disabled]}
-                source={require('../images/play.png')}
+                source={playUrl}
               />
               <Text style={[styles.buttonText, disabled && styles.disabled]}>
                 {I18n.t('continue')}
@@ -274,10 +289,11 @@ const Main = () => {
               activeOpacity={0.8}
               disabled={disabled}
               style={styles.button}
-              onPress={onClear}>
+              onPress={onClear}
+            >
               <Image
                 style={[styles.buttonIcon, disabled && styles.disabled]}
-                source={require('../images/reload.png')}
+                source={reloadUrl}
               />
               <Text style={[styles.buttonText, disabled && styles.disabled]}>
                 {I18n.t('restart')}
@@ -286,11 +302,9 @@ const Main = () => {
             <TouchableOpacity
               activeOpacity={0.8}
               style={styles.button}
-              onPress={onCreate}>
-              <Image
-                style={styles.buttonIcon}
-                source={require('../images/shuffle.png')}
-              />
+              onPress={onCreate}
+            >
+              <Image style={styles.buttonIcon} source={shuffleUrl} />
               <Text style={styles.buttonText}>{I18n.t('newgame')}</Text>
             </TouchableOpacity>
           </View>
@@ -298,28 +312,31 @@ const Main = () => {
             <TouchableOpacity
               activeOpacity={0.8}
               style={styles.button}
-              onPress={onShare}>
+              onPress={onShare}
+            >
               <Image
                 style={[styles.buttonIcon, styles.disabled]}
-                source={require('../images/share.png')}
+                source={shareUrl}
               />
             </TouchableOpacity>
             <TouchableOpacity
               activeOpacity={0.8}
               style={styles.button}
-              onPress={onCloseModal}>
+              onPress={onCloseModal}
+            >
               <Image
                 style={[styles.buttonIcon, styles.disabled]}
-                source={require('../images/close.png')}
+                source={closeUrl}
               />
             </TouchableOpacity>
             <TouchableOpacity
               activeOpacity={0.8}
               style={styles.button}
-              onPress={onRate}>
+              onPress={onRate}
+            >
               <Image
                 style={[styles.buttonIcon, styles.disabled]}
-                source={require('../images/rate.png')}
+                source={rateUrl}
               />
             </TouchableOpacity>
           </View>

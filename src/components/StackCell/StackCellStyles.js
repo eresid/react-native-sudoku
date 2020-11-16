@@ -1,6 +1,6 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 
-import {CellSize, BorderWidth} from '../GlobalStyle';
+import { CellSize, BorderWidth } from '../GlobalStyle';
 
 const styles = StyleSheet.create({
   container: {
