@@ -1,24 +1,24 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { InteractionManager, LayoutAnimation, View } from 'react-native';
+import { func, object } from 'prop-types';
 
-import {InteractionManager, LayoutAnimation, View} from 'react-native';
-
-import {CellSize, BorderWidth} from '../GlobalStyle';
+import { CellSize, BorderWidth } from '../GlobalStyle';
 
 import styles from './BoardStyles';
 import Grid from '../Grid/Grid';
 import Stack from '../Stack/Stack';
-import {sudoku, isNumber} from '../../utils';
+import { sudoku, isNumber } from '../../utils';
 
 const stack = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 
 function toXY(index) {
   const x = index % 9;
   const y = (index - x) / 9;
-  return {x, y};
+  return { x, y };
 }
 
 function toZ(index) {
-  const {x, y} = toXY(index);
+  const { x, y } = toXY(index);
   return (x - (x % 3)) / 3 + (y - (y % 3));
 }
 
@@ -38,7 +38,7 @@ const Board = ({
   let puzzle = solve || initPuzzle;
   let original = puzzle;
   let cells = [];
-  let stacks = stack.map((x) => new Array(9));
+  let stacks = stack.map(() => new Array(9));
   let movedStacks = [0, 0, 0, 0, 0, 0, 0, 0, 0];
   let hightlightNumber = null;
   let hightlightIndex = null;
@@ -46,7 +46,7 @@ const Board = ({
   let inited = false;
   let solved = false;
 
-  const onCellPress = (newIndex, number, fixed) => {
+  const onCellPress = (newIndex, number) => {
     if (!inited || solved) return;
     if (isNumber(number)) {
       if (isNumber(hightlightIndex)) cells[hightlightIndex].setHighlight(false);
@@ -94,7 +94,7 @@ const Board = ({
     }
     const stack = stacks[number][8 - movedStacks[number]];
     stack.moveTo(localIndex, () => {
-      const {x, y} = toXY(localIndex);
+      const { x, y } = toXY(localIndex);
       const z = toZ(localIndex);
       let collision = [];
       puzzle.forEach((item, idx) => {
@@ -186,7 +186,7 @@ const Board = ({
               cells[i].updateNumber(number, original[i] == puzzle[i]);
               if (count == numberCount) {
                 requestAnimationFrame(() => {
-                  fixedStack.map((item, idx) => item.setHide(true));
+                  fixedStack.map((item) => item.setHide(true));
                 });
                 setTimeout(() => {
                   inited = true;
@@ -196,7 +196,7 @@ const Board = ({
             });
           },
           gap * count,
-          count,
+          count
         );
       }
     }
@@ -212,7 +212,10 @@ const Board = ({
     movedStacks.forEach((x, number) => {
       for (let i = 0; i < x; i++) stacks[number][8 - i].reset();
     });
+
+    // eslint-disable-next-line no-undef
     puzzle = nextProps.solve || nextProps.puzzle;
+    // eslint-disable-next-line no-undef
     original = nextProps.puzzle;
 
     initBoard();
@@ -255,7 +258,7 @@ const Board = ({
     });
   };
 
-  const {x, y} = toXY(index);
+  const { x, y } = toXY(index);
   const top = y * CellSize + Math.floor(y / 3) * BorderWidth * 2;
   const left = x * CellSize + Math.floor(x / 3) * BorderWidth * 2;
 
@@ -265,10 +268,10 @@ const Board = ({
         <View style={styles.board}>
           <Grid ref={cellsRef} onPress={onCellPress} />
           {index != -1 && (
-            <View pointerEvents="none" style={[styles.row, {top}]} />
+            <View pointerEvents="none" style={[styles.row, { top }]} />
           )}
           {index != -1 && (
-            <View pointerEvents="none" style={[styles.column, {left}]} />
+            <View pointerEvents="none" style={[styles.column, { left }]} />
           )}
         </View>
       </View>
@@ -278,6 +281,22 @@ const Board = ({
       />
     </View>
   );
+};
+
+Board.propTypes = {
+  onInit: func.isRequired,
+  solve: object,
+  initPuzzle: object,
+  initEditing: object,
+  onMove: func.isRequired,
+  onErrorMove: func.isRequired,
+  onFinish: func.isRequired,
+};
+
+Board.defaultProps = {
+  solve: null,
+  initPuzzle: null,
+  initEditing: null,
 };
 
 export default Board;

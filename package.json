@@ -8,7 +8,21 @@
     "pod": "cd ios && pod install && cd ..",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint ."
+    "prettier": "prettier --single-quote --tab-width 2 --trailing-comma es5 --write \"src/**/*.js\"",
+    "precommit": "lint-staged",
+    "lint": "eslint .",
+    "lint-fix": "eslint --fix --ext .js,.jsx ."
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "**/*.js": [
+      "eslint --fix",
+      "git add"
+    ]
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.12.1",
@@ -30,9 +44,15 @@
     "@babel/runtime": "^7.8.4",
     "@react-native-community/eslint-config": "^1.1.0",
     "babel-jest": "^25.1.0",
-    "eslint": "^6.5.1",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "husky": "^4.3.0",
     "jest": "^25.1.0",
+    "lint-staged": "^10.5.1",
     "metro-react-native-babel-preset": "^0.59.0",
+    "prettier": "2.1.2",
     "react-test-renderer": "16.13.1"
   },
   "jest": {

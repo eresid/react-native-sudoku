@@ -1,10 +1,12 @@
-import React, {useEffect, useState} from 'react';
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-undef */
+import React, { useEffect, useState } from 'react';
 
-import {LayoutAnimation, View, Text, TouchableOpacity} from 'react-native';
+import { LayoutAnimation, View, Text, TouchableOpacity } from 'react-native';
 
 import styles from './StackCellStyles';
-import {CellSize, BoardWidth, BorderWidth} from '../GlobalStyle';
-import {number, func} from 'prop-types';
+import { CellSize, BoardWidth, BorderWidth } from '../GlobalStyle';
+import { number, func } from 'prop-types';
 
 const spring = {
   duration: 300,
@@ -20,7 +22,7 @@ const spring = {
 
 const Offset = (BoardWidth - CellSize * 9 - BorderWidth * 8) / 2;
 
-const StackCell = ({index, number, onPress}) => {
+const StackCell = ({ index, number, onPress }) => {
   const initLeft = (BoardWidth / 9) * number + (BoardWidth / 9 - CellSize) / 2;
   const initTop = index;
 
@@ -75,7 +77,8 @@ const StackCell = ({index, number, onPress}) => {
         onPress(number);
       }}
       activeOpacity={0.8}
-      style={[styles.container, {top, left}]}>
+      style={[styles.container, { top, left }]}
+    >
       <View style={styles.cell}>
         <Text style={styles.text}>{number + 1}</Text>
       </View>

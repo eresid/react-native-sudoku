@@ -1,4 +1,4 @@
-import {Platform, Linking, Share, Alert} from 'react-native';
+import { Platform, Linking, Share, Alert } from 'react-native';
 
 import I18n from './i18n';
 
@@ -14,8 +14,8 @@ export const onShare = () => {
     },
     {
       dialogTitle: I18n.t('share'),
-    },
-  ).catch((error) => {
+    }
+  ).catch(() => {
     Alert.alert(I18n.t('sharefailed'));
   });
 };
@@ -26,7 +26,7 @@ export const onRate = () => {
       ? 'https://play.google.com/store/apps/details?id=com.liteneo.sudoku'
       : 'itms-apps://itunes.apple.com/cn/app/id1138612488?mt=8';
   Alert.alert(I18n.t('rate'), I18n.t('ratemessage'), [
-    {text: I18n.t('cancel')},
-    {text: I18n.t('confirm'), onPress: () => Linking.openURL(link)},
+    { text: I18n.t('cancel') },
+    { text: I18n.t('confirm'), onPress: () => Linking.openURL(link) },
   ]);
 };

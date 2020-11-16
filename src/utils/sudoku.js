@@ -3,22 +3,22 @@
 //
 // This is a port of David Bau's python  implementation:
 // http://davidbau.com/archives/2006/09/04/sudoku_generator.html
+import * as _ from 'lodash';
 
-var undefined;
-var _ = require('lodash');
+let undefined;
 
-function makepuzzle(board) {
-  var puzzle = [];
-  var deduced = makeArray(81, null);
-  var order = _.range(81);
+const makepuzzle = (board) => {
+  const puzzle = [];
+  const deduced = makeArray(81, null);
+  const order = _.range(81);
 
   shuffleArray(order);
 
-  for (var i = 0; i < order.length; i++) {
-    var pos = order[i];
+  for (let i = 0; i < order.length; i++) {
+    let pos = order[i];
 
     if (deduced[pos] == null) {
-      puzzle.push({pos: pos, num: board[pos]});
+      puzzle.push({ pos: pos, num: board[pos] });
       deduced[pos] = board[pos];
       deduce(deduced);
     }
@@ -26,24 +26,24 @@ function makepuzzle(board) {
 
   shuffleArray(puzzle);
 
-  for (var i = puzzle.length - 1; i >= 0; i--) {
-    var e = puzzle[i];
+  for (let i = puzzle.length - 1; i >= 0; i--) {
+    const e = puzzle[i];
     removeElement(puzzle, i);
 
-    var rating = checkpuzzle(boardforentries(puzzle), board);
+    const rating = checkpuzzle(boardforentries(puzzle), board);
     if (rating == -1) {
       puzzle.push(e);
     }
   }
 
   return boardforentries(puzzle);
-}
+};
 
-function ratepuzzle(puzzle, samples) {
-  var total = 0;
+const ratepuzzle = (puzzle, samples) => {
+  let total = 0;
 
-  for (var i = 0; i < samples; i++) {
-    var tuple = solveboard(puzzle);
+  for (let i = 0; i < samples; i++) {
+    const tuple = solveboard(puzzle);
 
     if (tuple.answer == null) {
       return -1;
@@ -53,14 +53,14 @@ function ratepuzzle(puzzle, samples) {
   }
 
   return total / samples;
-}
+};
 
-function checkpuzzle(puzzle, board) {
+const checkpuzzle = (puzzle, board) => {
   if (board == undefined) {
     board = null;
   }
 
-  var tuple1 = solveboard(puzzle);
+  const tuple1 = solveboard(puzzle);
   if (tuple1.answer == null) {
     return -1;
   }
@@ -69,35 +69,35 @@ function checkpuzzle(puzzle, board) {
     return -1;
   }
 
-  var difficulty = tuple1.state.length;
-  var tuple2 = solvenext(tuple1.state);
+  const difficulty = tuple1.state.length;
+  const tuple2 = solvenext(tuple1.state);
 
   if (tuple2.answer != null) {
     return -1;
   }
 
   return difficulty;
-}
+};
 
-function solvepuzzle(board) {
+const solvepuzzle = (board) => {
   return solveboard(board).answer;
-}
+};
 
-function solveboard(original) {
-  var board = [].concat(original);
-  var guesses = deduce(board);
+const solveboard = (original) => {
+  const board = [].concat(original);
+  const guesses = deduce(board);
 
   if (guesses == null) {
-    return {state: [], answer: board};
+    return { state: [], answer: board };
   }
 
-  var track = [{guesses: guesses, count: 0, board: board}];
+  const track = [{ guesses: guesses, count: 0, board: board }];
   return solvenext(track);
-}
+};
 
-function solvenext(remembered) {
+const solvenext = (remembered) => {
   while (remembered.length > 0) {
-    var tuple1 = remembered.pop();
+    const tuple1 = remembered.pop();
 
     if (tuple1.count >= tuple1.guesses.length) {
       continue;
@@ -108,48 +108,49 @@ function solvenext(remembered) {
       count: tuple1.count + 1,
       board: tuple1.board,
     });
-    var workspace = [].concat(tuple1.board);
-    var tuple2 = tuple1.guesses[tuple1.count];
+    const workspace = [].concat(tuple1.board);
+    const tuple2 = tuple1.guesses[tuple1.count];
 
     workspace[tuple2.pos] = tuple2.num;
 
-    var guesses = deduce(workspace);
+    const guesses = deduce(workspace);
 
     if (guesses == null) {
-      return {state: remembered, answer: workspace};
+      return { state: remembered, answer: workspace };
     }
 
-    remembered.push({guesses: guesses, count: 0, board: workspace});
+    remembered.push({ guesses: guesses, count: 0, board: workspace });
   }
 
-  return {state: [], answer: null};
-}
+  return { state: [], answer: null };
+};
 
-function deduce(board) {
+const deduce = (board) => {
+  // eslint-disable-next-line no-constant-condition
   while (true) {
-    var stuck = true;
-    var guess = null;
-    var count = 0;
+    let stuck = true;
+    let guess = null;
+    let count = 0;
 
     // fill in any spots determined by direct conflicts
-    var tuple1 = figurebits(board);
-    var allowed = tuple1.allowed;
-    var needed = tuple1.needed;
+    const tuple1 = figurebits(board);
+    let allowed = tuple1.allowed;
+    let needed = tuple1.needed;
 
-    for (var pos = 0; pos < 81; pos++) {
+    for (let pos = 0; pos < 81; pos++) {
       if (board[pos] == null) {
-        var numbers = listbits(allowed[pos]);
+        const numbers = listbits(allowed[pos]);
         if (numbers.length == 0) {
           return [];
         } else if (numbers.length == 1) {
           board[pos] = numbers[0];
           stuck = false;
         } else if (stuck == true) {
-          var t = _.map(numbers, function (val, key) {
-            return {pos: pos, num: val};
+          const t = _.map(numbers, function (val) {
+            return { pos: pos, num: val };
           });
 
-          var tuple2 = pickbetter(guess, count, t);
+          const tuple2 = pickbetter(guess, count, t);
           guess = tuple2.guess;
           count = tuple2.count;
         }
@@ -157,23 +158,23 @@ function deduce(board) {
     }
 
     if (stuck == false) {
-      var tuple3 = figurebits(board);
+      const tuple3 = figurebits(board);
       allowed = tuple3.allowed;
       needed = tuple3.needed;
     }
 
     // fill in any spots determined by elimination of other locations
-    for (var axis = 0; axis < 3; axis++) {
-      for (var x = 0; x < 9; x++) {
-        var numbers = listbits(needed[axis * 9 + x]);
+    for (let axis = 0; axis < 3; axis++) {
+      for (let x = 0; x < 9; x++) {
+        const numbers = listbits(needed[axis * 9 + x]);
 
-        for (var i = 0; i < numbers.length; i++) {
-          var n = numbers[i];
-          var bit = 1 << n;
-          var spots = [];
+        for (let i = 0; i < numbers.length; i++) {
+          const n = numbers[i];
+          const bit = 1 << n;
+          const spots = [];
 
-          for (var y = 0; y < 9; y++) {
-            var pos = posfor(x, y, axis);
+          for (let y = 0; y < 9; y++) {
+            const pos = posfor(x, y, axis);
             if (allowed[pos] & bit) {
               spots.push(pos);
             }
@@ -185,11 +186,11 @@ function deduce(board) {
             board[spots[0]] = n;
             stuck = false;
           } else if (stuck) {
-            var t = _.map(spots, function (val, key) {
-              return {pos: val, num: n};
+            const t = _.map(spots, function (val) {
+              return { pos: val, num: n };
             });
 
-            var tuple4 = pickbetter(guess, count, t);
+            const tuple4 = pickbetter(guess, count, t);
             guess = tuple4.guess;
             count = tuple4.count;
           }
@@ -205,34 +206,34 @@ function deduce(board) {
       return guess;
     }
   }
-}
+};
 
-function figurebits(board) {
-  var needed = [];
-  var allowed = _.map(
+const figurebits = (board) => {
+  const needed = [];
+  const allowed = _.map(
     board,
-    function (val, key) {
+    function (val) {
       return val == null ? 511 : 0;
     },
-    [],
+    []
   );
 
-  for (var axis = 0; axis < 3; axis++) {
-    for (var x = 0; x < 9; x++) {
-      var bits = axismissing(board, x, axis);
+  for (let axis = 0; axis < 3; axis++) {
+    for (let x = 0; x < 9; x++) {
+      const bits = axismissing(board, x, axis);
       needed.push(bits);
 
-      for (var y = 0; y < 9; y++) {
-        var pos = posfor(x, y, axis);
+      for (let y = 0; y < 9; y++) {
+        const pos = posfor(x, y, axis);
         allowed[pos] = allowed[pos] & bits;
       }
     }
   }
 
-  return {allowed: allowed, needed: needed};
-}
+  return { allowed: allowed, needed: needed };
+};
 
-function posfor(x, y, axis) {
+const posfor = (x, y, axis) => {
   if (axis == undefined) {
     axis = 0;
   }
@@ -246,9 +247,9 @@ function posfor(x, y, axis) {
   return (
     [0, 3, 6, 27, 30, 33, 54, 57, 60][x] + [0, 1, 2, 9, 10, 11, 18, 19, 20][y]
   );
-}
+};
 
-function axisfor(pos, axis) {
+const axisfor = (pos, axis) => {
   if (axis == 0) {
     return Math.floor(pos / 9);
   } else if (axis == 1) {
@@ -256,13 +257,13 @@ function axisfor(pos, axis) {
   }
 
   return Math.floor(pos / 27) * 3 + (Math.floor(pos / 3) % 3);
-}
+};
 
-function axismissing(board, x, axis) {
-  var bits = 0;
+const axismissing = (board, x, axis) => {
+  let bits = 0;
 
-  for (var y = 0; y < 9; y++) {
-    var e = board[posfor(x, y, axis)];
+  for (let y = 0; y < 9; y++) {
+    const e = board[posfor(x, y, axis)];
 
     if (e != null) {
       bits |= 1 << e;
@@ -270,98 +271,100 @@ function axismissing(board, x, axis) {
   }
 
   return 511 ^ bits;
-}
+};
 
-function listbits(bits) {
-  var list = [];
-  for (var y = 0; y < 9; y++) {
+const listbits = (bits) => {
+  const list = [];
+  for (let y = 0; y < 9; y++) {
     if ((bits & (1 << y)) != 0) {
       list.push(y);
     }
   }
 
   return list;
-}
+};
 
-function allowed(board, pos) {
-  var bits = 511;
+// eslint-disable-next-line no-unused-vars
+const allowed = (board, pos) => {
+  let bits = 511;
 
-  for (var axis = 0; axis < 3; axis++) {
-    var x = axisfor(pos, axis);
+  for (let axis = 0; axis < 3; axis++) {
+    const x = axisfor(pos, axis);
     bits = bits & axismissing(board, x, axis);
   }
 
   return bits;
-}
+};
 
 // TODO: make sure callers utilize the return value correctly
-function pickbetter(b, c, t) {
+const pickbetter = (b, c, t) => {
   if (b == null || t.length < b.length) {
-    return {guess: t, count: 1};
+    return { guess: t, count: 1 };
   } else if (t.length > b.length) {
-    return {guess: b, count: c};
+    return { guess: b, count: c };
   } else if (randomInt(c) == 0) {
-    return {guess: t, count: c + 1};
+    return { guess: t, count: c + 1 };
   }
 
-  return {guess: b, count: c + 1};
-}
+  return { guess: b, count: c + 1 };
+};
 
-function boardforentries(entries) {
-  var board = _.map(_.range(81), function (val, key) {
+const boardforentries = (entries) => {
+  let board = _.map(_.range(81), function () {
     return null;
   });
 
-  for (var i = 0; i < entries.length; i++) {
-    var item = entries[i];
-    var pos = item.pos;
-    var num = item.num;
+  for (let i = 0; i < entries.length; i++) {
+    let item = entries[i];
+    let pos = item.pos;
+    let num = item.num;
 
     board[pos] = num;
   }
 
   return board;
-}
+};
 
-function boardmatches(b1, b2) {
-  for (var i = 0; i < 81; i++) {
+const boardmatches = (b1, b2) => {
+  for (let i = 0; i < 81; i++) {
     if (b1[i] != b2[i]) {
       return false;
     }
   }
 
   return true;
-}
+};
 
-function randomInt(max) {
+const randomInt = (max) => {
   return Math.floor(Math.random() * (max + 1));
-}
+};
 
-function shuffleArray(original) {
+const shuffleArray = (original) => {
   // Swap each element with another randomly selected one.
-  for (var i = 0; i < original.length; i++) {
-    var j = i;
+  for (let i = 0; i < original.length; i++) {
+    let j = i;
     while (j == i) {
       j = Math.floor(Math.random() * original.length);
     }
-    var contents = original[i];
+    let contents = original[i];
     original[i] = original[j];
     original[j] = contents;
   }
-}
+};
 
-function removeElement(array, from, to) {
-  var rest = array.slice((to || from) + 1 || array.length);
+const removeElement = (array, from, to) => {
+  const rest = array.slice((to || from) + 1 || array.length);
   array.length = from < 0 ? array.length + from : from;
   return array.push.apply(array, rest);
-}
+};
 
-function makeArray(length, value) {
-  return _.map(_.range(length), function (val, key) {
+const makeArray = (length, value) => {
+  return _.map(_.range(length), function () {
     return value;
   });
-}
+};
 
+// eslint-disable-next-line no-undef
 module.exports = {
   makepuzzle: function () {
     return makepuzzle(solvepuzzle(makeArray(81, null)));

@@ -1,6 +1,6 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 
-import {CellSize, BoardWidth, BorderWidth} from '../GlobalStyle';
+import { CellSize, BoardWidth, BorderWidth } from '../GlobalStyle';
 
 const styles = StyleSheet.create({
   boardContainer: {
