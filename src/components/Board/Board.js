@@ -33,8 +33,6 @@ const Board = ({
 }) => {
   const [index, setIndex] = useState(-1);
 
-  const cellsRef = useRef();
-
   let puzzle = solve || initPuzzle;
   let original = puzzle;
   let cells = [];
@@ -214,9 +212,9 @@ const Board = ({
     });
 
     // eslint-disable-next-line no-undef
-    puzzle = nextProps.solve || nextProps.puzzle;
+    puzzle = solve || puzzle;
     // eslint-disable-next-line no-undef
-    original = nextProps.puzzle;
+    original = puzzle;
 
     initBoard();
   }, [editing, puzzle, solve]);
@@ -266,7 +264,10 @@ const Board = ({
     <View style={styles.container}>
       <View style={styles.boardContainer}>
         <View style={styles.board}>
-          <Grid ref={cellsRef} onPress={onCellPress} />
+          <Grid
+            ref={(ref) => ref && (cells = ref.cells)}
+            onPress={onCellPress}
+          />
           {index != -1 && (
             <View pointerEvents="none" style={[styles.row, { top }]} />
           )}
