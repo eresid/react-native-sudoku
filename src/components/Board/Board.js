@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { InteractionManager, LayoutAnimation, View } from 'react-native';
 import { func, object } from 'prop-types';
 
@@ -8,6 +8,8 @@ import styles from './BoardStyles';
 import Grid from '../Grid/Grid';
 import Stack from '../Stack/Stack';
 import { sudoku, isNumber } from '../../utils';
+
+import { GameContext } from '../../contexts/GameContext';
 
 const stack = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 
@@ -31,6 +33,8 @@ const Board = ({
   onErrorMove,
   onFinish,
 }) => {
+  const [count, setCount] = useContext(GameContext);
+
   const [index, setIndex] = useState(-1);
 
   let puzzle = solve || initPuzzle;
