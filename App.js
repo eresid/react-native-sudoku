@@ -1,35 +1,27 @@
 import React from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  StatusBar,
-  UIManager,
-  View,
-} from 'react-native';
-
+import { createStackNavigator } from '@react-navigation/stack';
+import { SafeAreaView, StyleSheet, UIManager } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-//import { createStackNavigator } from '@react-navigation/stack';
 
-import Main from './src/screens/Main';
+import { MainStack } from './AppNavigation';
+
+const Stack = createStackNavigator();
 
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
-
-//const Stack = createStackNavigator();
 
 const App = () => {
   return (
     <SafeAreaView style={styles.container}>
       <NavigationContainer>
-        <View style={styles.container}>
-          <StatusBar
-            backgroundColor="transparent"
-            animated={true}
-            translucent={true}
-            barStyle="light-content"
-          />
-          <Main />
-        </View>
+        <Stack.Navigator
+          screenOptions={{
+            initialRouteName: 'MainStack',
+            headerShown: false,
+          }}
+        >
+          <Stack.Screen name="MainStack" component={MainStack} />
+        </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaView>
   );

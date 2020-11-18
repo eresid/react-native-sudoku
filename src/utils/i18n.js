@@ -4,10 +4,11 @@ I18n.fallbacks = true;
 
 I18n.translations = {
   en: {
-    name: 'Sudoku Master',
+    name: 'sudoku.',
     continue: 'Continue ',
     restart: 'Restart  ',
     newgame: 'New Game ',
+    nowToPlay: 'How to Play?',
     weekrank: 'Week Rank',
     norecord: 'No records yet',
     onlinerank: 'Online Rank',

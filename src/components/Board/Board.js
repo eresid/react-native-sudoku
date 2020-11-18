@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { InteractionManager, LayoutAnimation, View } from 'react-native';
+import { InteractionManager, LayoutAnimation, View, Image } from 'react-native';
 import { func, object } from 'prop-types';
 
 import { CellSize, BorderWidth } from '../GlobalStyle';
@@ -10,6 +10,10 @@ import Stack from '../Stack/Stack';
 import { sudoku, isNumber } from '../../utils';
 
 import { GameContext } from '../../contexts/GameContext';
+import createIconUrl from '../../images/create.png';
+import eraserIconUrl from '../../images/eraser.png';
+import lightbulbIconUrl from '../../images/lightbulb.png';
+import replayIconUrl from '../../images/replay.png';
 
 const stack = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 
@@ -33,6 +37,7 @@ const Board = ({
   onErrorMove,
   onFinish,
 }) => {
+  // eslint-disable-next-line no-unused-vars
   const [count, setCount] = useContext(GameContext);
 
   const [index, setIndex] = useState(-1);
@@ -278,6 +283,23 @@ const Board = ({
           {index != -1 && (
             <View pointerEvents="none" style={[styles.column, { left }]} />
           )}
+        </View>
+      </View>
+      <View style={styles.iconsWrap}>
+        <View style={styles.icons}>
+          <Image style={styles.icon} source={replayIconUrl} />
+        </View>
+        <View style={styles.icons}>
+          <Image style={styles.icon} source={eraserIconUrl} />
+        </View>
+        <View style={styles.icons}>
+          <Image style={styles.icon} source={createIconUrl} />
+        </View>
+        <View style={styles.icons}>
+          <Image
+            style={{ ...styles.icon, ...styles.lastIcon }}
+            source={lightbulbIconUrl}
+          />
         </View>
       </View>
       <Stack

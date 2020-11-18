@@ -13,8 +13,8 @@ const styles = StyleSheet.create({
   cell: {
     width: CellSize,
     height: CellSize,
-    backgroundColor: 'lightyellow',
-    borderColor: 'orange',
+    backgroundColor: 'white',
+    borderColor: 'grey',
     borderWidth: StyleSheet.hairlineWidth,
     borderRadius: BorderWidth,
     alignItems: 'center',
