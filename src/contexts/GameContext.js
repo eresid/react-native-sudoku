@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React, { useState, createContext } from 'react';
 
 export const GameContext = createContext();

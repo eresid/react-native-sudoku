@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import { CellSize, BorderWidth } from '../GlobalStyle';
+import { CellSize, BorderWidth, Color } from '../GlobalStyle';
 
 const styles = StyleSheet.create({
   container: {
@@ -11,16 +11,17 @@ const styles = StyleSheet.create({
   cell: {
     width: CellSize,
     height: CellSize,
-    backgroundColor: 'moccasin',
-    borderColor: 'orange',
+    backgroundColor: '#D6E9FF',
+    borderColor: '#D6E9FF',
     borderWidth: StyleSheet.hairlineWidth,
     borderRadius: BorderWidth,
     alignItems: 'center',
     justifyContent: 'center',
   },
   text: {
-    color: '#666',
-    fontSize: (CellSize * 2) / 3,
+    color: Color.TITLE_COLOR,
+    opacity: 0.8,
+    fontSize: (CellSize * 2) / 4,
     fontFamily: 'HelveticaNeue',
   },
 });

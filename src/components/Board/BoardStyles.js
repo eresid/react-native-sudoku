@@ -1,17 +1,18 @@
 import { StyleSheet } from 'react-native';
 
-import { CellSize, BoardWidth, BorderWidth } from '../GlobalStyle';
+import { CellSize, BoardWidth, BorderWidth, Color } from '../GlobalStyle';
 
 const styles = StyleSheet.create({
   boardContainer: {
-    marginTop: 20,
+    // marginTop: 20,
     alignItems: 'center',
     width: BoardWidth,
   },
   board: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    backgroundColor: 'orange',
+    backgroundColor: Color.TITLE_COLOR,
+    borderRadius: 8,
     padding: BorderWidth,
   },
   row: {
@@ -37,6 +38,25 @@ const styles = StyleSheet.create({
     borderColor: 'peru',
     borderWidth: 2,
     borderRadius: BorderWidth,
+  },
+  iconsWrap: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 20,
+  },
+  icons: {
+    backgroundColor: 'rgba(204, 222, 244, 0.6)',
+    padding: 10,
+    marginHorizontal: 10,
+    borderRadius: 10,
+  },
+  icon: {
+    width: 35,
+    height: 35,
+  },
+  lastIcon: {
+    transform: [{ rotate: '180deg' }],
   },
 });
 

@@ -7,7 +7,8 @@ const styles = StyleSheet.create({
     width: CellSize * 9 + BorderWidth * 6,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    backgroundColor: 'orange',
+    backgroundColor: 'grey',
+    borderRadius: 8,
   },
   grid: {
     margin: BorderWidth,
