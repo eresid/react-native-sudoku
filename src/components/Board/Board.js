@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { InteractionManager, LayoutAnimation, View, Image } from 'react-native';
 import { func, object } from 'prop-types';
 
@@ -9,7 +9,7 @@ import Grid from '../Grid/Grid';
 import Stack from '../Stack/Stack';
 import { sudoku, isNumber } from '../../utils';
 
-import { GameContext } from '../../contexts/GameContext';
+// import { GameContext } from '../../contexts/GameContext';
 import createIconUrl from '../../images/create.png';
 import eraserIconUrl from '../../images/eraser.png';
 import lightbulbIconUrl from '../../images/lightbulb.png';
@@ -38,7 +38,7 @@ const Board = ({
   onFinish,
 }) => {
   // eslint-disable-next-line no-unused-vars
-  const [count, setCount] = useContext(GameContext);
+  // const [count, setCount] = useContext(GameContext);
 
   const [index, setIndex] = useState(-1);
 
