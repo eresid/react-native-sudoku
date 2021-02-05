@@ -60,7 +60,6 @@ const styles = StyleSheet.create({
   },
   modelsWrapper: {
     alignItems: 'center',
-    backgroundColor: 'red',
   },
   modelsSwitchesWrapper: {
     flexDirection: 'row',
@@ -68,7 +67,6 @@ const styles = StyleSheet.create({
   modelsSwitch: {
     alignItems: 'center',
     width: '50%',
-    backgroundColor: 'orange',
   },
 });
 
