@@ -22,9 +22,6 @@ const GameCell = ({ key, value, highlight, sameChosenValue, onPress }) => {
 };
 
 GameCell.propTypes = {
-  
-};
-GameCell.propTypes = {
   key: number,
   value: string,
   highlight: bool,
