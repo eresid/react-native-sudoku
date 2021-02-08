@@ -3,7 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { SafeAreaView, StyleSheet, UIManager } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 
-import { MainStack } from './AppNavigation';
+import { MainStack } from './src/navigation/AppNavigation';
 
 const Stack = createStackNavigator();
 

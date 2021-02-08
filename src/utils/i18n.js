@@ -5,6 +5,8 @@ I18n.fallbacks = true;
 I18n.translations = {
   en: {
     name: 'sudoku.',
+    newGame: 'New Game',
+
     continue: 'Continue ',
     restart: 'Restart  ',
     newgame: 'New Game ',
